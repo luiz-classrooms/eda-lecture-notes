@@ -368,7 +368,7 @@ Notas de aula para as disciplinas de Estrutura de Dados e Estrutura de Dados Ava
     ~BSTree~ não esteja vazia, ambos delegam seu retorno para métodos
     homônimos de ~BSTreeNode~.
     
-    \pagebreak
+    # \pagebreak
 
     #+attr_latex: :options fontsize=\footnotesize
     #+begin_src c++
@@ -417,7 +417,7 @@ Notas de aula para as disciplinas de Estrutura de Dados e Estrutura de Dados Ava
     permitir que se retorne nada caso a chave buscada não esteja
     presente na ~BSTree~. Definimos agora a classe ~BSTreeNode~.
     
-    \pagebreak
+    # \pagebreak
 
     #+attr_latex: :options fontsize=\footnotesize
     #+begin_src c++
@@ -492,7 +492,7 @@ Notas de aula para as disciplinas de Estrutura de Dados e Estrutura de Dados Ava
     esquerda.  Isso justifica a corretude de ~minKey~, e um argumento
     análogo se aplica a ~maxKey~.
     
-    \pagebreak
+    # \pagebreak
 
     #+attr_latex: :options fontsize=\footnotesize
     #+begin_src c++
@@ -576,7 +576,7 @@ Notas de aula para as disciplinas de Estrutura de Dados e Estrutura de Dados Ava
     sub-árvore. Caso a sub-árvore não esteja vazia, a inserção é
     tentada recursivamente.  Enfim definimos ~remove~.
     
-    \pagebreak
+    # \pagebreak
 
     #+attr_latex: :options fontsize=\footnotesize
     #+begin_src c++
@@ -669,7 +669,7 @@ Notas de aula para as disciplinas de Estrutura de Dados e Estrutura de Dados Ava
     da chave a ser removida nos levou a uma sub-árvore vazia, o que
     indica que a chave que buscávamos não existia na árvore.
    
-    # \pagebreak
+    \pagebreak
 
     #+attr_latex: :options fontsize=\footnotesize
     #+begin_src c++
@@ -742,7 +742,7 @@ Notas de aula para as disciplinas de Estrutura de Dados e Estrutura de Dados Ava
     e ~parentNode->right~ são do tipo ~unique_ptr~.  Vamos para o
     próximo cenário de remoção.
     
-    \pagebreak
+    # \pagebreak
 
     #+attr_latex: :options fontsize=\footnotesize
     #+begin_src c++ -n -r
@@ -1179,7 +1179,7 @@ Notas de aula para as disciplinas de Estrutura de Dados e Estrutura de Dados Ava
     Dica: quais nós de uma Árvore AVL podem ser filhos únicos?
     #+end_exercicio
     
-    \clearpage
+    # \clearpage
     
 *** Implementação
     
@@ -1223,7 +1223,7 @@ Notas de aula para as disciplinas de Estrutura de Dados e Estrutura de Dados Ava
     subclasse de ~BSTree<std::string, int>~.  Vamos descrever os
     membros de ~AVLTree~.
     
-    \pagebreak
+    # \pagebreak
 
     #+attr_latex: :options fontsize=\footnotesize
     #+begin_src c++
@@ -1272,7 +1272,7 @@ Notas de aula para as disciplinas de Estrutura de Dados e Estrutura de Dados Ava
     um nó, baseando-se apenas na altura de seus filhos.  Vamos
     descrever em detalhes ~AVLTreeNode~.
     
-    \pagebreak
+    # \pagebreak
 
     #+attr_latex: :options fontsize=\footnotesize
     #+begin_src c++
@@ -1321,7 +1321,7 @@ Notas de aula para as disciplinas de Estrutura de Dados e Estrutura de Dados Ava
     precisamos dessa informação, em cada sub-árvore, para o
     procedimento de remoção.
     
-    \pagebreak
+    # \pagebreak
 
     #+attr_latex: :options fontsize=\footnotesize
     #+begin_src c++
@@ -1372,7 +1372,7 @@ Notas de aula para as disciplinas de Estrutura de Dados e Estrutura de Dados Ava
     uso de ~std::max~ para calcular a maior altura entre os filhos de
     ~node~.
     
-    # \pagebreak
+    \pagebreak
 
     #+attr_latex: :options fontsize=\footnotesize
     #+begin_src c++
@@ -1395,7 +1395,7 @@ Notas de aula para as disciplinas de Estrutura de Dados e Estrutura de Dados Ava
     ~BSTreeWithNode~ seja definido para ~AVLTreeNode~.  Para
     instanciar ~BSTreeWithNode~, basta ~BSTreeWithNode<BSTreeNode>~.
     
-    # \pagebreak
+    \pagebreak
 
     #+attr_latex: :options fontsize=\footnotesize
     #+begin_src c++
@@ -1509,7 +1509,7 @@ Notas de aula para as disciplinas de Estrutura de Dados e Estrutura de Dados Ava
     ~AVLTreeWithNode~, existem alguns métodos ~static~ que auxiliam
     certas tarefas.  Vamos descrevê-los a seguir.
     
-    # \pagebreak
+    \pagebreak
 
     #+attr_latex: :options fontsize=\footnotesize
     #+begin_src c++
@@ -1584,6 +1584,8 @@ Notas de aula para as disciplinas de Estrutura de Dados e Estrutura de Dados Ava
     nos permite determinar tal caminho a ser corrigido,
     representando-o como uma pilha de ~AVLTreeNode*~.
 
+    \pagebreak
+
     #+attr_latex: :options fontsize=\footnotesize
     #+begin_src c++
     // the compiler will deduce what Function is.  Applies func to each
@@ -1628,6 +1630,8 @@ Notas de aula para as disciplinas de Estrutura de Dados e Estrutura de Dados Ava
     ~applyOnPath~ com uma função diferente.  Esse tipo de função, que
     recebe outras funções como argumentos, é chamado de /função de alta
     ordem/.
+
+    \pagebreak
 
     #+attr_latex: :options fontsize=\footnotesize
     #+begin_src c++
@@ -2129,6 +2133,8 @@ Notas de aula para as disciplinas de Estrutura de Dados e Estrutura de Dados Ava
     página de ~BTree~ (a menos da raiz) deve ter entre ~t - 1~ e ~2t -
     1~ chaves.
 
+    \pagebreak
+
     #+attr_latex: :options fontsize=\footnotesize
     #+begin_src c++
     private:
@@ -2232,7 +2238,7 @@ Notas de aula para as disciplinas de Estrutura de Dados e Estrutura de Dados Ava
     encontrar as chaves sucessora e predecessora de uma certa chave.
     #+end_exercicio
     
-    \pagebreak
+    # \pagebreak
 
     #+attr_latex: :options fontsize=\footnotesize
     #+begin_src c++
@@ -2252,7 +2258,7 @@ Notas de aula para as disciplinas de Estrutura de Dados e Estrutura de Dados Ava
     dessas condições não seja atendida, ~splitChild~ apenas sinaliza
     que sua operação não ocorreu.
     
-    \pagebreak
+    # \pagebreak
 
     #+attr_latex: :options fontsize=\footnotesize
     #+begin_src c++
@@ -2320,6 +2326,8 @@ Notas de aula para as disciplinas de Estrutura de Dados e Estrutura de Dados Ava
     ``esquerdo'' de sua antiga chave mediana) e ~newSibling~ possa se
     tornar ~child[childIndex + 1]~ (~newSibling~ torna-se filho
     ``direito'' da antiga chave mediana de ~splittingChild~).
+
+    \pagebreak
 
     #+attr_latex: :options fontsize=\footnotesize
     #+begin_src c++
@@ -2416,7 +2424,7 @@ Notas de aula para as disciplinas de Estrutura de Dados e Estrutura de Dados Ava
     quando sua raiz é dividida.
     #+end_exercicio
     
-    \pagebreak
+    # \pagebreak
 
     #+attr_latex: :options fontsize=\footnotesize
     #+begin_src c++

@@ -1,0 +1,9 @@
+/auto/
+/notas.tex
+/figures/ avl figures/auto/
+*.aux
+*.log
+*.gz
+/figures/ avl figures/avl figures.tex~
+/figures/rb figures/auto/
+/figures/rb figures/rb figures.tex~

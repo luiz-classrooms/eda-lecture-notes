@@ -2569,6 +2569,11 @@ Notas de aula para as disciplinas de Estrutura de Dados e Estrutura de Dados Ava
 
     \pagebreak
   
+* Heaps
+** Heaps Binárias
+** Heaps de Fibonacci
+
+   \pagebreak
 * Laboratórios
 
   Nesta seção, descrevemos atividades práticas que devem ser

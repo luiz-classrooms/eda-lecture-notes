@@ -2686,8 +2686,8 @@ Notas de aula para as disciplinas de Estrutura de Dados e Estrutura de Dados Ava
    6. Acrescente mais testes a ~rbtree_test.cpp~, de forma a garantir
       que sua implementação de ~RBTree~ está correta.  Use ~#define
       checkProperties~ (antes de incluir ~rbtree.hpp~) de forma a
-      tornar ~obeyProperties~ disponível.  Após cada operação de
-      modificação em seus testes, chame ~obeyProperties~ em um
+      tornar ~obeysProperties~ disponível.  Após cada operação de
+      modificação em seus testes, chame ~obeysProperties~ em um
       ~assert~.
       
 ** Árvores B

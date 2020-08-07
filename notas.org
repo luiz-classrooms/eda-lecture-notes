@@ -2669,7 +2669,7 @@ Notas de aula para as disciplinas de Estrutura de Dados e Estrutura de Dados Ava
       É possível basear-se nas rotações simples de ~AVLTree~.
    3. Implemente a função ~static void
       insertionMaintenance(RBTreeNode* node)~ como método privado de
-      ~RBTree~.  Essa função deve sempre ser chamada com nós
+      ~RBTreeWithNode~.  Essa função deve sempre ser chamada com nós
       vermelhos, já que a manutenção é sempre feita para nós
       vermelhos.  O propósito dessa função é fazer as trocas de cor e
       rotações necessárias para manter as propriedades de um nó de

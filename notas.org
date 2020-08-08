@@ -2366,7 +2366,7 @@ Notas de aula para as disciplinas de Estrutura de Dados e Estrutura de Dados Ava
     #+end_src
     
     Por enquanto, estamos omitindo um membro privado, mas listamos
-    ~root~, o ponteiro para a página raiz de ~BSTree~.  Os membros
+    ~root~, o ponteiro para a página raiz de ~BTree~.  Os membros
     públicos dessa listagem são bastante triviais.
     
     \pagebreak

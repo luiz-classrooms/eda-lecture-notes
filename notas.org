@@ -12,6 +12,9 @@
 #+latex_header: \newtheorem{exercicio}{Exercício}
 #+latex_header: \newtheorem{theorem}{Teorema}
 
+#+latex_header: \RequirePackage{fancyvrb}
+#+latex_header: \DefineVerbatimEnvironment{verbatim}{Verbatim}{fontsize=\scriptsize}
+
 #+options: toc:nil
 
 \begin{abstract}

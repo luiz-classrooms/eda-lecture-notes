@@ -2595,6 +2595,11 @@ Notas de aula para as disciplinas de Estrutura de Dados e Estrutura de Dados Ava
    filhos. Com isso, é sabido que o elemento mais prioritário deve se
    encontrar na raiz da heap.
 
+   #+begin_exercicio
+   Argumente que o elemento mais prioritário de uma sub-árvore de heap
+   binária se encontra em sua raiz. Dica: indução na altura.
+   #+end_exercicio
+
    Os filhos de um certo nó não precisam obedecer uma relação entre
    si, mas apenas cada um com seu pai. Assim, podemos representar a
    heap de forma linear, abstraindo-a como uma árvore bem balanceada,
@@ -2748,6 +2753,10 @@ Notas de aula para as disciplinas de Estrutura de Dados e Estrutura de Dados Ava
       // ...
     #+end_src
 
+    #+begin_exercicio
+    Escreve uma versão iterativa de ~heapify_down_~.
+    #+end_exercicio
+
     O método ~heapify_down_~ tem o propósito de assegurar que um certo
     nó de índice ~i~ é mais prioritário que seus descendentes, dado
     que seus dois filhos já obedecem essa propriedade. Para isso, sua
@@ -2783,6 +2792,11 @@ Notas de aula para as disciplinas de Estrutura de Dados e Estrutura de Dados Ava
     prioritário que o filho, e comparando, de forma recursiva, o
     recém-deslocado filho com seu novo pai. O critério de parada de
     ~heapify_up_~ é mais explícito que o de ~heapify_down_~.
+
+    #+begin_exercicio
+    É possível implementar uma fila em termos de uma heap? E quanto a
+    uma pilha?
+    #+end_exercicio
 
 ** Heaps de Fibonacci
 

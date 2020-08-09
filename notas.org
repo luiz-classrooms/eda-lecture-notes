@@ -2789,7 +2789,7 @@ Notas de aula para as disciplinas de Estrutura de Dados e Estrutura de Dados Ava
     que um nó de índice ~i~ não é mais prioritário que seus
     ancestrais, dado que seu pai já obedece essa propriedade. Isso é
     feito trocando filho e pai de lugar, caso o pai não seja mais
-    prioritário que o filho, e comparando, de forma recursiva, o
+    prioritário que o filho, e comparando, de forma iterativa, o
     recém-deslocado filho com seu novo pai. O critério de parada de
     ~heapify_up_~ é mais explícito que o de ~heapify_down_~.
 

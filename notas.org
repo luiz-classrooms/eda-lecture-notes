@@ -2793,10 +2793,131 @@ Notas de aula para as disciplinas de Estrutura de Dados e Estrutura de Dados Ava
     recém-deslocado filho com seu novo pai. O critério de parada de
     ~heapify_up_~ é mais explícito que o de ~heapify_down_~.
 
+    #+begin_src c++
+      class BinaryMaxHeap{
+        // ...
+      public:
+        // basic constructor
+        BinaryMaxHeap() : data_{}, size_{0}
+        {}
+        // returns whether heap is empty
+        bool empty(){
+          return size_ == 0;
+        }
+        // ...
+      };
+    #+end_src
+
+    Agora descrevemos a interface pública de ~BinaryMaxHeap~. Temos um
+    construtor bem simples, sem argumentos, que inicializa ~data_~ e
+    ~size_~ de forma a indicar que a estrutura ainda não possui
+    elementos. O método ~empty~ indica se a estrutura está vazia ou
+    não.
+
+    #+begin_src c++
+      public:
+        // ...
+        // gets the element with highest priority. Returns nothing in case
+        // heap is empty
+        std::optional<Element> priority_element(){
+          if (empty()){
+            return {};
+          }
+          else{
+            return data_[0].element;
+          }
+        }
+        // ...
+    #+end_src
+
+    O método ~priority_element~ retorna o elemento mais prioritário da
+    estrutura. Como esse se encontra na raiz da heap, retornamos o
+    elemento armazenado na posição de índice ~0~. Caso a heap esteja
+    vazia, retornamos um ~optional~ vazio.
+
+    #+begin_src c++
+      public:
+        // ...
+        // extracts the element with highest priority. Does nothing in case
+        // heap is empty
+        std::optional<Element> extract(){
+          if (empty()){
+            return {};
+          }
+          else{
+            // moves element at position 0, since it is about to be
+            // overwritten
+            Element moved {std::move(data_[0].element)};
+            // overwrites heap root with the leaf of maximum valid index
+            data_[0] = std::move(data_[size_ - 1]);
+            // accounts for removal of one element
+            --size_;
+            // adjusts position of new root
+            heapify_down_(0);
+            // returns extracted element
+            return moved;
+          }
+        }
+        // ...
+    #+end_src
+
+    Em ~extract~, removemos e retornamos o elemento mais
+    prioritário. Para tanto, salvamos o elemento mais prioritário e,
+    em seguida, sobrescrevemos a raiz da heap com a folha de maior
+    índice. Para garantir as propriedades da heap, ajustamos a posição
+    da nova raiz com ~heapify_down_~.
+
+    \pagebreak
+
+    #+begin_src c++
+      public:
+        // ...
+        // inserts element with priority
+        void insert(priority_type priority, const Element& element){
+          // data_ might be using all its allocated space, so use push_back
+          // to ensure reallocation (if needed)
+          if (size_ == data_.size()){
+            data_.push_back({priority, element});
+          }
+          // otherwise simply put element and its priority as the leaf with
+          // maximum valid index
+          else{
+            data_[size_] = {priority, element};
+          }
+          // accounts for insertion of element
+          ++size_;
+          // adjusts position of newly inserted element
+          heapify_up_(size_ - 1);
+        }
+    #+end_src
+
+    Durante a inserção, precisamos levar em conta se será necessário
+    realocar a região de memória que armazena nossos elementos. Isso
+    pode ser necessário apenas quando ~size_~ é igual a
+    ~data_.size()~, e nesse caso delegamos a inserção a ~push_back~,
+    que é capaz de realocar ~data_~ caso seja necessário. Uma vez
+    inserido o novo elemento e sua prioridade como a folha de maior
+    índice, usamos ~heapify_up_~ para assegurar as propriedades de
+    heap.
+
     #+begin_exercicio
     É possível implementar uma fila em termos de uma heap? E quanto a
     uma pilha?
     #+end_exercicio
+
+*** Complexidade
+
+    As operações de inserção e remoção têm sua complexidade dominada
+    por ~heapify_up_~ e ~heapify_down_~, respectivamente. Como essas
+    funções fazem uma quantidade constante de comparações e ~swap~ por
+    iteração ou chamada, sua complexidade é proporcional ao número de
+    iterações ou chamadas que podem ser realizadas, e esse é limitado
+    pela altura da árvore binária que representa nossa heap. Como
+    organizamos os nós linearmente de forma que a árvore esteja sempre
+    bem balanceada, inserção e remoção em uma heap de $n$ elementos
+    custam $O(n)$. O acesso ao elemento mais prioritário, que tem sua
+    localização bem determinada pela disposição dos nós, é feito em
+    $O(1)$.
 
 ** Heaps de Fibonacci
 

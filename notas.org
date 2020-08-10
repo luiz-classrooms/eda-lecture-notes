@@ -3003,13 +3003,10 @@ Notas de aula para as disciplinas de Estrutura de Dados e Estrutura de Dados Ava
    implementação como para a realização de testes.
    
    1. Vamos tratar ~nullptr~ como nossas folhas pretas sem dados
-      significativos.  Implemente os seguintes métodos privados em
-      ~RBTree~:
-      - ~static Color color(const std::unique_ptr<RBTreeNode>& node);~
-      - ~static Color color(const std::nullptr_t nptr);~
-      A especialização de ~color~ para ~std::nullptr_t~ deve sempre
-      retornar ~Color::black~.  Assim, usaremos esse método para
-      determinar a cor de um nó, mesmo que ele seja ~nullptr~.
+      significativos. Em ~RBTree~, implemente o método privado ~static
+      Color color(const RBTree* node)~, que deve retornar
+      ~Color::black~ quando ~node~ é ~nullptr~, e ~node->color~ caso
+      contrário.
    2. Implemente as funções de rotação simples como métodos privados
       de ~RBTRee~:
       - ~static void rotateR(RBTreeNode* node);~

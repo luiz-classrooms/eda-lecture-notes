@@ -3070,29 +3070,33 @@ Notas de aula para as disciplinas de Estrutura de Dados e Estrutura de Dados Ava
    1. Implemente um método público ~index_type size()~ em
       ~BinaryMaxHeap~, que retorna o número de elementos armazenados
       na heap.
-   2. Crie a classe ~BinaryMedianHeap~, com ~typename Element~ e
+   2. Em ~BinaryMaxHeap~, adapte ~extract~ e ~priority_element~ para
+      retornar ~std::optional<std::pair<priority_type, Element>>~,
+      isto é, retornar o elemento mais prioritário junto com seu valor
+      de prioridade.
+   3. Crie a classe ~BinaryMedianHeap~, com ~typename Element~ e
       ~typename priority_type~ como seus parâmetros de template. O
       parâmetro ~priority_type~ deve ser, por padrão, o tipo ~unsigned
       long~.
-   3. Crie dois membros privados em ~BinaryMedianHeap~, uma
+   4. Crie dois membros privados em ~BinaryMedianHeap~, uma
       ~BinaryMaxHeap~ e uma ~BinaryMinHeap~, ambas utilizando os
       mesmos parâmetros de ~BinaryMedianHeap~, cada uma utilizando seu
       parâmetro ~Comparator~ padrão.
-   4. Crie um construtor para inicializar ~BinaryMedianHeap~ com
+   5. Crie um construtor para inicializar ~BinaryMedianHeap~ com
       nenhum elemento. Lembre-se que o construtor deve inicializar
       os membros privados da classe.
-   5. Crie um método ~std::optional<Element> median_element()~, que
+   6. Crie um método ~std::optional<Element> median_element()~, que
       deve dar acesso ao elemento mediano, de acordo com os valores de
       prioridade. Vamos criar os métodos de inserção e remoção de
       forma que o elemento mediano seja sempre o elemento mais
       prioritário de ~BinaryMaxHeap~.
-   6. Crie o método de inserção com as seguintes propriedades:
+   7. Crie o método de inserção com as seguintes propriedades:
       - a inserção sempre é feita em ~BinaryMaxHeap~;
       - ~BinaryMaxHeap~ tem no máximo um elemento a mais que
         ~BinaryMinHeap~.
-   7. Crie o método de remoção com as seguintes propriedades:
+   8. Crie o método de remoção com as seguintes propriedades:
       - a remoção sempre é feita de ~BinaryMaxHeap~;
       - ~BinaryMaxHeap~ não tem menos elementos que ~BinaryMinHeap~.
-   8. Crie um arquivo ~binary_median_heap_test.cpp~, e nele escreva
+   9. Crie um arquivo ~binary_median_heap_test.cpp~, e nele escreva
       testes para garantir que sua implementação de ~BinaryMedianHeap~
       está correta.

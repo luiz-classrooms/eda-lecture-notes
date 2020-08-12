@@ -2915,9 +2915,9 @@ Notas de aula para as disciplinas de Estrutura de Dados e Estrutura de Dados Ava
     pela altura da árvore binária que representa nossa heap. Como
     organizamos os nós linearmente de forma que a árvore esteja sempre
     bem balanceada, inserção e remoção em uma heap de $n$ elementos
-    custam $O(n)$. O acesso ao elemento mais prioritário, que tem sua
-    localização bem determinada pela disposição dos nós, é feito em
-    $O(1)$.
+    custam $O(\log n)$. O acesso ao elemento mais prioritário, que tem
+    sua localização bem determinada pela disposição dos nós, é feito
+    em $O(1)$.
 
 ** Heaps de Fibonacci
 

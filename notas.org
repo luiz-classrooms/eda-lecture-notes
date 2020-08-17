@@ -2921,6 +2921,193 @@ Notas de aula para as disciplinas de Estrutura de Dados e Estrutura de Dados Ava
 
 ** Heaps de Fibonacci
 
+   TODO escrever na próxima versão da disciplina.
+
+   \pagebreak
+* Conjuntos Disjuntos
+
+  Em certos contextos, é desejável representar uma relação entre um
+  grupo de elementos de forma que eles fiquem particionados em
+  conjuntos disjuntos.  Nesses contextos, duas operações costumam ser
+  importantes: determinar a que conjunto disjunto pertence um certo
+  elemento, e unir dois conjuntos em um novo conjunto disjunto de
+  forma eficiente.
+
+  Vamos implementar o agrupamento de $n$ elementos em conjuntos
+  disjuntos como uma associação indireta entre cada elemento e seu
+  único representante.  Dessa forma, os elementos de um conjunto
+  disjunto podem ser caracterizados por terem um mesmo representante.
+
+  Se um elemento está associado a si mesmo, então ele é seu próprio
+  representante. Caso contrário, ele e seu elemento associado têm o
+  mesmo representante.  Inicialmente, teremos $n$ conjuntos disjuntos
+  unitários, ou seja, cada elemento será representado por si mesmo.
+
+** Implementação
+
+   Vamos criar nossa implementação de conjuntos disjuntos em um
+   arquivo chamado ~disjoint_sets.hpp~. Seu conteúdo é descrito a
+   seguir.
+
+   #+begin_src c++
+     #pragma once
+     // we will use a vector to create an association between elements
+     #include <vector>
+     // A disjoint set implementation: each of n elements is uniquely
+     // assigned to a index between 0 and n - 1, and is initially
+     // represented by itself. Elements with a common representative can
+     // therefore be seen as disjoint from other groups of elements. This
+     // way, each element starts in a unitary disjoint set
+     class DisjointSet{
+     public:
+       // alias used as index type
+       using size_type = unsigned long;
+     private:
+       // alias for our data representation: each representative is given
+       // by its index, so size_type seems a reasonable choice
+       using Data = std::vector<size_type>;
+       // this stores representative of element i in position of index i
+       Data representative_;
+     public:
+       // ...
+     };
+   #+end_src
+
+   Em nossa classe ~DisjointSet~, cada um dos ~n~ elementos é
+   identificado por um índice entre ~0~ e ~n - 1~. Dada essa escolha,
+   usamos ~unsigned long~ para armazenar os índices de nossos
+   elementos, e ~Data~ como um alias para um ~vector~ de ~unsigned
+   long~, que é utilizado para armazenar, em sua posição de índice ~0
+   <= i <= n~, o índice do elemento associado a ~i~.
+
+   #+begin_src c++
+     public:
+       // constructor of DisjointSet with number_elements initial elements
+       DisjointSet(size_type number_elements) : representative_{}
+       {
+         // allocates space for number_elements representative indices
+         representative_.resize(number_elements);
+         // initially, each element is represented by itself
+         for (size_type i {0}; i < number_elements; ++i){
+           representative_[i] = i;
+         }
+       }
+       // returns number of elements currently being represented by DisjointSet
+       size_type size() const{
+         return representative_.size();
+       }
+       // ...
+   #+end_src
+
+   O construtor de ~DisjointSet~ tem como argumento o número inicial
+   de elementos, e é responsável por alocar memória para tais
+   elementos e fazer com que sejam representados por si mesmos. Já o
+   método ~size~ apenas retorna o número de elementos que a estrutura
+   está representando.
+
+   #+begin_src c++
+     // returns index of representative of element
+     size_type representative(size_type element) const{
+       // if element is represented by itself, returns its own index
+       if (representative_[element] == element){
+         return element;
+       }
+       // otherwise, goes recursively in search of a representative
+       else{
+         return representative(representative_[element]);
+       }
+     }
+   #+end_src
+
+   O método ~representative~ retorna o índice do representante de
+   ~element~, e sua implementação segue nossa definição. Se ~element~
+   está associado a si mesmo, ele é seu próprio representante e
+   portanto é retornado. Caso contrário, ele e seu elemento associado
+   têm o mesmo representate, logo devemos retornar, recursivamente, o
+   representante de ~representative_[element]~.
+
+   \pagebreak
+
+   #+begin_src c++
+     // adds a new element index to DisjointSet
+     size_type new_element(){
+       // gets number of elements currently being represented by
+       // DisjointSet
+       size_type number_elements {representative_.size()};
+       // adds a new element (with number_elements as index) being
+       // represented by itself
+       representative_.push_back(number_elements);
+       // returns index of newly represented element
+       return number_elements;
+     }
+   #+end_src
+
+   A finalidade de ~new_element~ é fazer com que nossa estrutura passe
+   a representar um novo elemento. Para isso, criamos uma posição em
+   ~representative_~ cujo índice é exatamente igual ao número de
+   elementos anteriormente representados, e fazemos com que seu
+   conteúdo seja seu próprio índice. Tal índice é retornado,
+   permitindo ao usuário da classe se referir ao novo elemento por seu
+   índice.
+
+   #+begin_src c++
+     // joins two distinct groups of elements: if element_a and element_b
+     // are represented by distinct representatives, representative of
+     // element_b starts to represent all elements previously represented
+     // by the representative of element_a. Returns true if a join has
+     // occured
+     bool join(size_type element_a, size_type element_b){
+       // gets the representative of each element
+       size_type representative_a {representative(element_a)};
+       size_type representative_b {representative(element_b)};
+       // if they are the same, no join needs to occur, and this is
+       // signaled to the caller
+       if (representative_a == representative_b){
+         return false;
+       }
+       // otherwise, representative_a becomes represented by
+       // representative_b, and as a consequence, each element formerly
+       // represented by representative_a is now represneted by
+       // representative_b
+       else{
+         representative_[representative_a] = representative_b;
+         // a join has occured, so returns true
+         return true;
+       }
+     }
+   #+end_src
+
+   Em ~join~, temos o objetivo de fazer com que os conjuntos disjuntos
+   de ~element_a~ e ~element_b~ sejam unidos, caso não sejam o
+   mesmo. Primeiro, tomamos os representantes de ~element_a~ e
+   ~element_b~. Caso sejam o mesmo, nada é feito e isso é sinalizado
+   no retorno. Caso contrário, fazemos com que ~representative_a~
+   passe a ser represnetado por ~representative_b~, e portanto os
+   elementos dos conjuntos de ~element_a~ e ~element_b~ passam a ter o
+   mesno representante, e estão agora no mesmo conjunto, ainda
+   disjunto dos demais.
+
+** Complexidade
+
+   Em nossa estrutura de conjuntos disjuntos, determinar o
+   representante de um elemento depende de passear por uma série de
+   associações. Como um elemento é indiretamente associado a seu
+   representante, pode ser que todos os $n$ elementos tenham o mesmo
+   representante e estejam associados de forma linear. Nesse cenário,
+   que é o de pior caso, determinar o representante de um certo
+   elemento custa $O(n)$.
+
+   A complexidade de nossa outra operação não é diferente. Note que,
+   apesar da união de dois conjuntos disjuntos poder ser feita com uma
+   única mudança em uma associação, o que é feito em tempo
+   constante, precisamos primeiro determinar os representantes de dois
+   elementos, e isso tem um custo linear no número de elementos.
+
+   No entanto, a implementação aqui apresentada não é ótima. Nas
+   atividades de laboratório referentes a conjuntos disjuntos, iremos
+   implementar técnicas que melhoram significativamente os custos de
+   nossas operações: união por /rank/ e compressão de caminhos.
+
    \pagebreak
 * Laboratórios
 

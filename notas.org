@@ -3287,3 +3287,7 @@ Notas de aula para as disciplinas de Estrutura de Dados e Estrutura de Dados Ava
    9. Crie um arquivo ~binary_median_heap_test.cpp~, e nele escreva
       testes para garantir que sua implementação de ~BinaryMedianHeap~
       está correta.
+
+** Heaps de Fibonacci
+
+   TODO escrever na próxima versão da disciplina.

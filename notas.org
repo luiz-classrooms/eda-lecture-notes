@@ -3291,3 +3291,32 @@ Notas de aula para as disciplinas de Estrutura de Dados e Estrutura de Dados Ava
 ** Heaps de Fibonacci
 
    TODO escrever na próxima versão da disciplina.
+
+** Conjuntos Disjuntos
+
+   Neste laboratório, vamos aprimorar nossa implementação de conjuntos
+   disjuntos com duas técnicas: compressão de caminhos e união por
+   rank.  Para tanto, resolva as seguintes atividades.
+
+   1. Crie um novo membro em ~DisjointSet~ para armazenar os ranks dos
+      elementos. Inicialmente, todo elemento tem rank zero. Observe
+      que isso implica em fazer modificações no construtor de
+      ~DisjointSet~ e no método ~new_element~.
+   2. Observe que o método ~representative~ poderia atualizar o
+      elemento associado a ~element~ antes de retornar, o que faria
+      com que ~element~ ficasse diretamente associado a seu elemento
+      representante. Essa técnica é conhecida como compressão de
+      caminho. Implemente a compressão de caminho em ~representative~:
+      basta salvar o retorno da chamada recursiva de ~representative~
+      em uma varável, usá-la para atualizar o elemento associado a
+      element, e em seguida retorná-la.
+   3. Por fim, vamos implementar união por rank. Primeiro, observe que
+      o único método que altera os conjuntos é ~join~, que sempre
+      prefere fazer ~representative_a~ passar a ser representado por
+      ~representative_b~. Vamos fazer ~join~ utilizar o rank como um
+      critério para determinar se ~representative_a~ deve passar a ser
+      representado por ~representative_b~ ou o contrário: dentre os
+      dois, o elemento de maior rank deve passar a ser o representante
+      do elemento de menor rank; caso ambos tenham o mesmo rank, não
+      importa qual dos dois tornar-se-á representante do outro, mas
+      esse deve ter seu rank aumentado em uma unidade.

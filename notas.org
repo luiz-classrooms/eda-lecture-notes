@@ -3109,6 +3109,61 @@ Notas de aula para as disciplinas de Estrutura de Dados e Estrutura de Dados Ava
    nossas operações: união por /rank/ e compressão de caminhos.
 
    \pagebreak
+
+* Grafos
+
+  Grafos são construções matemáticas que expressam relações entre
+  pares de elementos de um certo conjunto. Formalmente, o grafo $G =
+  (V, E)$ é determinado por um par de conjuntos: $V$ é um conjunto
+  finito contendo os vértices de $G$, enquanto $E \subseteq
+  \binom{V}{2}$ é um conjunto de pares não ordenados de elementos de
+  $V$, e cada um desses pares é dito uma aresta de $G$. As arestas de
+  um grafo expressam relações entre seus vértices. Por exemplo, os
+  vértices podem representar pessoas e uma aresta entre dois vértices
+  pode indicar que as pessoas correspondentes se conhecem.
+
+  No parágrafo anterior, é utilizada a notação $\binom{V}{2}$, que
+  representa todos os subconjuntos de $V$ com exatamente dois
+  elementos. Formalmente, $\binom{V}{2} = \{S \subseteq V : |S| = 2\}$
+  e, de maneira geral, $\binom{C}{k} = \{S \subseteq C : |S| = k\}$.
+
+  É possível que as relações entre os vértices sejam representadas por
+  pares ordenados. Nesse caso, estamos lidando com grafos
+  direcionados, ou digrafos, e os pares ordenados são chamados de
+  arcos, tendo um vértice como origem e um vértice como destino. Em
+  escrita formal, um digrafo $D = (V, A)$ tem um conjunto finito de
+  vértices $V$ e um conjunto de arcos $A \subseteq V \times V = V^2$.
+
+  Aqui, vamos implementar digrafos e grafos, nessa ordem. Para tanto,
+  vamos entender como representá-los.
+
+** Representação
+
+   Um digrafo $D = (V, A)$ pode ser representado de duas formas
+   principais: utilizando listas de adjacência ou uma matriz de
+   adjacência. Em uma representação por listas de adjacência, a cada
+   vértice $v \in V$ é atribuida uma lista encadeada simples contendo
+   os vértices atingíveis a partir de $v$, ou seja, os vértices do
+   conjunto $N^+(v) = \{u \in V : (v, u) \in A\}$. Já em uma
+   representação por matriz de adjacência, o conjunto $A$ é
+   representado por uma matriz $M \in \{0, 1\}^{|V| \times |V|}$, em
+   que $M_{uv} = 1$ se e somente se $(u, v) \in A$. Note que, na
+   segunda representação, admitimos que $V = \{1 \dots n\}$. Com pouca
+   adaptação, tais representações também podem ser usadas para grafos.
+
+   Listas encadeadas são eficientes, em termos de espaço, para
+   representar grafos (ou digrafos) esparsos. Por outro lado, matrizes
+   de adjacência permitem verificar, em tempo constante, se um arco
+   (ou aresta) existe em um digrafo (ou grafo).
+
+   Nestas notas de aula, vamos fazer nossa implementação de digrafos
+   baseada em matrizes de adjacência. Além disso, vamos fazer seu
+   reuso para nossa implementação de grafos.
+
+** Implementação
+
+  \pagebreak
+
 * Laboratórios
 
   Nesta seção, descrevemos atividades práticas que devem ser

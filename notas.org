@@ -3654,3 +3654,39 @@ Notas de aula para as disciplinas de Estrutura de Dados e Estrutura de Dados Ava
       do elemento de menor rank; caso ambos tenham o mesmo rank, não
       importa qual dos dois tornar-se-á representante do outro, mas
       esse deve ter seu rank aumentado em uma unidade.
+
+** Grafos
+
+   Neste laboratório, vamos estender a classe ~Digraph_~ em
+   ~Graph.hpp~ com alguns métodos.
+
+   1. Implemente o método ~out_degree~, que recebe um vértice ~u~ e
+      retorna seu grau de saída, isto é, o número de arcos que têm ~u~
+      como seu extremo inicial.
+   2. Implemente o método ~in_degree~, que recebe um vértice ~v~ e
+      retorna seu grau de entrada, isto é, o número de arcos que têm
+      ~v~ como seu extremo final.
+   3. Implemente o método ~degree~, que retorna o grau total de um
+      vértice ~v~.
+   4. Escreva o método ~max_in_degree~ (~min_in_degree~), que retorna
+      o grau de entrada máximo (mínimo) do digrafo, junto com um
+      vértice que tenha grau de entrada máximo (mínimo). Da mesma
+      forma, implemente ~max_out_degree~ (~min_out_degree~) e
+      ~max_degree~ (~min_degree~).
+   5. Implemente uma função ~valid_path~ que, dados como argumentos um
+      digrafo e um ~vector~ representando uma sequência de vértices,
+      determina se a sequência de vértices é um passeio válido no
+      digrafo, isto é, se todos os seus pares de vértices consecutivos
+      correspondem a arcos no digrafo.
+   6. A busca em profundidade, dado um vértice ~v~ como ponto de
+      partida, visita todos os vértices atingíveis a partir de ~v~,
+      começando pelos mais distantes e terminando pelos mais
+      próximos. A busca em largura também visita todos os vértices
+      atingíveis a partir de ~v~, mas os visita dos mais próximos para
+      os mais distantes. Baseado em ~depth_first_search~, que é uma
+      implementação de busca em profundidade, escreva a função
+      ~breadth_first_search~, que deve ser uma implementação de busca
+      em largura. Dica: a mudança mais critíca está na estrutura de
+      dados que controla a ordem em que os vértices são visitados.
+   7. Em ~Graph_test.cpp~, escreva testes para todos os métodos
+      propostos neste laboratório.

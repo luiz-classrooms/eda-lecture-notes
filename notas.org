@@ -3157,12 +3157,291 @@ Notas de aula para as disciplinas de Estrutura de Dados e Estrutura de Dados Ava
    (ou aresta) existe em um digrafo (ou grafo).
 
    Nestas notas de aula, vamos fazer nossa implementação de digrafos
-   baseada em matrizes de adjacência. Além disso, vamos fazer seu
-   reuso para nossa implementação de grafos.
+   baseada em matrizes de adjacência. Além disso, nossa implementação
+   de grafos fará reuso, por herança, de nossos digrafos.
 
 ** Implementação
 
-  \pagebreak
+   Vamos utilizar o arquivo ~Graph.hpp~ para realizar nossas
+   implementações.
+
+   #+begin_src c++
+     // this is another way of achieving what #pragma once does
+     #ifndef graph_hpp
+     #define graph_hpp
+     // we are going to use matrices to represent our graphs
+     #include <Matrix.hpp>
+     // stack and vector will be used in depth first search
+     #include <stack>
+     #include <vector>
+     // a class to represent a directed graph represented with MatrixType
+     template<template<typename Type> typename MatrixType = SquareMatrix>
+     class Digraph_{
+       // ...
+     };
+     // ...
+     #endif
+   #+end_src
+
+   A primeira coisa digna de nota é que não estamos utilizando
+   ~#pragma once~ para garantir que ~Graph.hpp~ irá ser considerado no
+   máximo uma vez por sessão de compilação. Em vez disso, envolvemos
+   todas as suas definições em um ~#ifndef~, e a primeira delas
+   justamente define o símbolo referenciado pelo ~#ifndef~.
+
+   Como vamos representar nossos grafos e digrafos por meio de
+   matrizes de adjacência, utilizamos ~Matrix.hpp~ para nos fornecer
+   definições de matrizes. Como implementação de matrizes não está no
+   escopo dessa seção, vamos omitir os detalhes sobre ~Matrix.hpp~.
+
+   A classe ~Digraph_~ é parametrizada, mas seu parâmetro não é apenas
+   um ~typename~. O parâmetro de ~Digraph_~ não pode ser um tipo
+   simples, mas deve ser também um tipo parametrizado, por isso
+   ~MatrixType~ não é apenas um ~typename~, mas um ~template<typename
+   Type> typename~. Isso ocorre porque nossas matrizes não são tipos
+   simples, e ~Digraph_~ precisa ser parametrizado pelo tipo de matriz
+   com o propósito de ser flexível para suas subclasses. Como matrizes
+   de adjacência são quadradas, o valor padrão de ~MatrixType~ é o
+   tipo parametrizado ~SquareMatrix~.
+
+   \pagebreak
+
+   #+begin_src c++
+     class Digraph_{
+     private:
+       // alias for MatrixType
+       using Data = MatrixType<bool>;
+     public:
+       // we use the same size_type as Data
+       using size_type = typename Data::size_type;
+     private:
+       // our digraph is represented with an adjacency matrix
+       Data data_;
+       // number of vertices and (directed) edges, respectively
+       size_type num_verts_;
+       size_type num_edges_;
+     public:
+       // ...
+     };
+   #+end_src
+
+   Como matrizes de adjacência têm suas posições valoradas com 0 ou 1,
+   podemos utilizar ~MatrixType~ parametrizado com ~bool~, e usamos
+   ~Data~ como um alias para esse tipo. Note também que utilizamos o
+   mesmo ~size_type~ que ~Data~. Como membros privados, temos ~data_~
+   como nossa matriz de adjacência e as variáveis ~num_verts_~ e
+   ~num_edges_~ armazenando, respectivamente, os números de vértices e
+   arestas do digrafo.
+
+   #+begin_src c++
+     public:
+       // const references to the number of vertices and edges, respectively
+       const size_type& num_verts;
+       const size_type& num_edges;
+       // builds a digraph with num_v vertices and no edges
+       Digraph_(size_type num_v)
+         : data_{num_v}, num_verts_{num_v}, num_edges_{0}, num_verts{num_verts_}, num_edges{num_edges_}
+       {
+         data_ = false;
+       }
+       // determines whether there is an edge from u to v
+       bool has_edge(size_type u, size_type v) const{
+         return data_.const_at(u, v);
+       }
+       // ...
+   #+end_src
+
+   Na interface pública de ~Digraph_~, temos duas referências
+   imutáveis para os números de vértice e arestas do digrafo. Nosso
+   construtor toma como argumento o número de vértices de nosso
+   digrafo, e o inicializa com um conjunto vazio de arcos. Isso é
+   representado por ~data_ = false~, indicando que não há arcos entre
+   quaisquer pares de vértices.
+
+   O método ~has_edge~ toma como argumentos identificadores de
+   vértices ~u~ e ~v~, que devem estar entre ~0~ e ~num_verts - 1~, e
+   retorna um ~bool~ indicando se há um arco de ~u~ para ~v~. Como
+   esse método é ~const~, isto é, não altera os membros de ~Digraph_~,
+   ele utiliza o método ~const_at~ de ~MatrixType~, um método ~const~
+   que retorna o valor de uma certa posição da matriz.
+
+   #+begin_src c++
+     public:
+       // ...
+       // adds edge from u to v. Returns false if edge is already present
+       bool add_edge(size_type u, size_type v){
+         // in case edge is present, signals to user that nothing was done
+         if (has_edge(u, v)){
+           return false;
+         }
+         // otherwise, adds edge and accounts it
+         else{
+           data_.at(u, v) = true;
+
+           ++num_edges_;
+
+           return true;
+         }
+       }
+       // removes edge from u to v. Returns false if edge does not exist
+       bool remove_edge(size_type u, size_type v){
+         // in case edge is present, removes it and accounts its deletion
+         if (has_edge(u, v)){
+           data_.at(u, v) = false;
+
+           --num_edges_;
+
+           return true;
+         }
+         // otherwise, does nothing
+         else{
+           return false;
+         }
+       }
+   #+end_src
+
+   Responsáveis pelas alterações em ~Digraph_~, os métodos ~add_edge~
+   e ~remove_edge~ trabalham de uma forma bastante simétrica. Ambos
+   retornam um valor booleano indicando se ~Digraph_~ de fato foi
+   alterado. Além disso, ambos contabilizam a inclusão ou exclusão de
+   um arco.
+
+   #+begin_src c++
+     // alias for avoiding an ugly syntax which would be needed when using
+     // Digraph_ as function argument
+     using Digraph = Digraph_<>;
+   #+end_src
+
+   Por fim, utilizamos um alias que torna o uso de ~Digraph_~ mais
+   elegante. Com isso, encerramos nossa implementação de ~Digraph~,
+   deixando a elaboração de propriedades mais sofisticadas de digrafos
+   como atividades de laboratório. Agora tratamos de nossa
+   implementação de grafos.
+
+   \pagebreak
+
+   #+begin_src c++
+     // a class to represnet an undirected graph
+     class Graph : public Digraph_<UpperTriangularMatrix>{
+     private:
+       // alias for superclass
+       using Digraph = Digraph_<UpperTriangularMatrix>;
+     public:
+       // we use the same size_type as superclass
+       using size_type = typename Digraph::size_type;
+     private:
+       // ensures u <= v, which allows us to use a compact representation
+       // of the graph
+       static void adjust_endpoints_(size_type& u, size_type& v){
+         if (u > v){
+           std::swap(u, v);
+         }
+       }
+     public:
+       // ...
+     };
+   #+end_src
+
+   Utilizamos uma classe simples ~Graph~ para representar nossos
+   grafos não direcionados. Como aqui lidamos com arestas, em vez de
+   arcos, temos que $\{u, v\}$ e $\{v, u\}$ representam a mesma
+   aresta, logo nossa matriz de adjacência não precisa fazer uso de
+   posições abaixo de sua diagonal principal, e assim uma matriz
+   quadrada triangular superior é o bastante para representarmos
+   nossas arestas. Com base nessa observação, ~Graph~ herda de
+   ~Digraph_~ parametrizada por ~UpperTriangularMatrix~.
+
+   Criamos um alias para a superclasse de ~Graph~, e reutilizamos seu
+   ~size_type~. Para garantir que a superclasse não recebe acessos ao
+   triângulo inferior de sua matriz de adjacência, definimos o método
+   ~adjust_endpoints_~, que apenas permuta o conteúdo de ~u~ e ~v~
+   caso ~u > v~.
+
+   \pagebreak
+
+   #+begin_src c++
+     public:
+       // builds an undirected graph with num_v vertices
+       Graph(size_type num_v) : Digraph{num_v}
+       {}
+       // determines whether there is an edge between u and v
+       bool has_edge(size_type u, size_type v) const{
+         // notice that this enforces the lack of direction in our representation
+         adjust_endpoints_(u, v);
+         // delegates all the work to the superclass
+         return Digraph::has_edge(u, v);
+       }
+       // adds edge between u and v
+       bool add_edge(size_type u, size_type v){
+         adjust_endpoints_(u, v);
+         // delegates all the work to the superclass
+         return Digraph::add_edge(u, v);
+       }
+       // removes edge between u and v
+       bool remove_edge(size_type u, size_type v){
+         adjust_endpoints_(u, v);
+         // delegates all the work to the superclass
+         return Digraph::remove_edge(u, v);
+       }
+   #+end_src
+
+   A interface pública de ~Graph~ consiste de um construtor elementar,
+   que delega a inicialização para a superclasse, e dos métodos
+   ~has_edge~, ~add_edge~ e ~remove_edge~. Cada um desses métodos
+   utiliza ~adjust_endpoints_~ para evitar acessos irrelevantes à
+   matriz de adjacência da superclasse, e em seguida delega seu
+   retorno para o método correspondente na superclasse.
+
+   Vamos refatorar esse comportamento padrão dos métodos públicos de
+   ~Graph~. Para isso, propomos o método privado ~adjust_and_call_~.
+
+   #+begin_src c++
+     template<typename Method>
+     bool adjust_and_call_(Method method, size_type u, size_type v){
+       adjust_endpoints_(u, v);
+
+       return (this->*method) (u, v);
+     }
+     template<typename Method>
+     bool adjust_and_call_(Method method, size_type u, size_type v) const{
+       adjust_endpoints_(u, v);
+
+       return (this->*method) (u, v);
+     }
+   #+end_src
+
+   Criamos um método ~adjust_and_call_~ que recebe como seu primeiro
+   argumento um método da classe, e passa seus dois últimos argumentos
+   para ~adjust_endpoints_~. Por fim, ~method~ é chamado com os dois
+   últimos argumentos. Observe a sintaxe especial que é utilizada para
+   chamar um ponteiro de função que aponta para um método. Como um
+   último destaque, apontamos que o overload ~const~ de
+   ~adjust_and_call_~ é necessário para tornar possível sua utilização
+   em ~has_edge~, que também é um método ~const~. Agora podemos
+   reescrever os métodos públicos de ~Graph~ em termos de
+   ~adjust_and_call_~.
+
+   #+begin_src c++
+     // determines whether there is an edge between u and v
+     bool has_edge(size_type u, size_type v) const{
+       return adjust_and_call_(&Digraph::has_edge, u, v);
+     }
+     // adds edge between u and v
+     bool add_edge(size_type u, size_type v){
+       return adjust_and_call_(&Digraph::add_edge, u, v);
+     }
+     // removes edge between u and v
+     bool remove_edge(size_type u, size_type v){
+       return adjust_and_call_(&Digraph::remove_edge, u, v);
+     }
+   #+end_src
+
+   Com isso, encerramos nossa implementação elementar de grafos,
+   fazendo uso de algumas oportunidades de reuso e refatoração. A
+   elaboração de propriedades mais sofisticadas de grafos fica como
+   atividade de laboratório.
+
+   \pagebreak
 
 * Laboratórios
 

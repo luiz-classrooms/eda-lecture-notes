@@ -3762,21 +3762,34 @@ Notas de aula para as disciplinas de Estrutura de Dados e Estrutura de Dados Ava
    5. Crie um construtor para inicializar ~BinaryMedianHeap~ com
       nenhum elemento. Lembre-se que o construtor deve inicializar
       os membros privados da classe.
-   6. Crie um método ~std::optional<Element> median_element()~, que
-      deve dar acesso ao elemento mediano, de acordo com os valores de
-      prioridade. Vamos criar os métodos de inserção e remoção de
-      forma que o elemento mediano seja sempre o elemento mais
-      prioritário de ~BinaryMaxHeap~.
-   7. Crie o método de inserção com as seguintes propriedades:
-      - a inserção sempre é feita em ~BinaryMaxHeap~;
-      - ~BinaryMaxHeap~ tem no máximo um elemento a mais que
-        ~BinaryMinHeap~.
-   8. Crie o método de remoção com as seguintes propriedades:
-      - a remoção sempre é feita de ~BinaryMaxHeap~;
-      - ~BinaryMaxHeap~ não tem menos elementos que ~BinaryMinHeap~.
-   9. Crie um arquivo ~binary_median_heap_test.cpp~, e nele escreva
-      testes para garantir que sua implementação de ~BinaryMedianHeap~
-      está correta.
+   6. Crie um método privado ~void maintain_balance()~, que deve
+      verificar a seguinte propriedade: a diferença entre o número de
+      elementos das heaps deve ser no máximo um. Assim, se uma das
+      heaps tem dois elementos a mais que a outra, o seu elemento mais
+      prioritário deve ser movido para a outra heap.
+   7. Crie um método ~std::optional<std::pair<priority_type, Element>>
+      median_element()~, que deve dar acesso ao elemento mediano, de
+      acordo com os valores de prioridade. O elemento mediano deve ser
+      o elemento mais prioritário da heap com mais elementos. Caso as
+      heaps tenham o mesmo número de elementos, consideramos que o
+      elemento mediano é o mais prioritário da heap máxima.
+   8. Crie o método de inserção com as seguintes propriedades:
+      - caso o elemento a ser inserido tenha uma prioridade menor ou
+        igual que a de ~median_element()~, ele deve ser inserido na
+        heap máxima; do contrário, deve ser inserido na heap mínima.
+      - após a inserção, deve-se chamar ~maintain_balance~.
+   9. Crie o método de remoção com as seguintes propriedades:
+      - caso uma das heaps tenha mais elementos que a outra, sabemos
+        que ~median_element()~ se encontra na heap com mais elementos,
+        e portanto é nela que deve ser feita a remoção.
+      - caso as duas heaps tenham a mesma quantidade de elementos,
+        temos convencionado que ~median_element()~ se encontra na heap
+        máxima, e portanto é nela que deve ser feita a remoção. Note
+        que, após uma remoção, não é necessário chamar
+        ~maintain_balance()~.
+   10. Crie um arquivo ~binary_median_heap_test.cpp~, e nele escreva
+       testes para garantir que sua implementação de ~BinaryMedianHeap~
+       está correta.
 
 ** Heaps de Fibonacci
 

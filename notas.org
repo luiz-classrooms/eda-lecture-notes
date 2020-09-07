@@ -3566,6 +3566,8 @@ Notas de aula para as disciplinas de Estrutura de Dados e Estrutura de Dados Ava
    análoga, ~remmove_edge~ lida com a remoção de arestas, fazendo
    ajustes em ~graph_~ e ~edge_weight_~.
 
+   \pagebreak
+
    #+begin_src c++
      // returns weight of edge between u amd v. In case such an edge does
      // not exist, returms default initialization value of Weight
@@ -3598,6 +3600,87 @@ Notas de aula para as disciplinas de Estrutura de Dados e Estrutura de Dados Ava
    isso em nossas atividades de laboratório.
 
    \pagebreak
+
+* Tabelas Hash
+
+  Alguns tipos de dados carecem de uma relação de ordem. Com isso,
+  tais tipos não poderiam ser utilizados para indexar uma Árvore
+  Binária de Busca. Ainda assim, qualquer tipo de dados deve ser
+  comparável ao menos por igualdade, uma vez que qualquer informação
+  em um conputador é representada por uma sequência de valores
+  binários.
+
+  O propósito desta seção é apresentar estruturas de dados capazes de
+  serem indexadas por tipos de dados comparáveis por
+  igualdade. Observe que tais estruturas, dessa forma, podem ter seu
+  índice baseado em qualquer tipo capaz de compor o índice de uma
+  Árovre Binária de Busca, ao passo que o contrário não é verdade.
+
+  Tais estruturas de dados são conhecidas como Tabelas Hash, ou
+  Tabelas de Dispersão. A ideia central das Tabelas Hash é utilizar
+  uma quantidade considerável de espaço para reduzir a complexidade de
+  tempo de suas operações.
+
+  Idealmente, uma Tabela Hash com uma chave ~Key~ de $n$ bits deveria
+  ter $2^n$ posições pré-alocadas, uma para cada valor de ~Key~, com
+  espaço adicional para um valor associado (de tipo ~Val~,
+  digamos). Assim, utilizando uma região de memória contínua para
+  armazenar todos os valores de ~Key~, seríamos capazes de buscar por
+  uma chave da tabela em tempo constante, e ter acesso ao valor ~Val~
+  associado, seja para consulta ou alteração.
+
+  O problema desse cenário ideal é o quão rápido o requisito de espaço
+  se degenera, à medida em que tomamos ~Key~ com mais e mais bits. A
+  título de exemplo, utilizar um tipo ~Key~ de 32 bits, ou 4 bytes,
+  exige uma região de memória contínua com $4(2^{32})$ bytes, que são
+  16 gigabytes. Observe ainda que calculamos apenas o espaço
+  necessário para o índice, já que desconsideramos que cada chave
+  ~Key~ teria um valor ~Val~ associado.
+
+  Para viabilizar o uso de espaço, podemos nos concentrar em utilizar
+  um tipo ~Key~ de tamanho menor. Como ilustração, um tipo ~Key~ de 8
+  bits, ou um byte, exigiria uma região contínua de memória com
+  $1(2^8)$ bytes, que são 256 bytes. No entanto, apesar dessa
+  abordagem resolver o uso proibitivo de memória, ela restringe
+  bastante a escolha de ~Key~. Precisamos buscar um compromisso entre
+  os dois cenários, e para isso vamos abrir mão do tempo constante no
+  acesso ao valor ~Val~ associado a uma chave ~Key~.
+
+  Propomos que nossas tabelas de dispersão utilizem dois tipos de
+  chaves: uma chave externa ~Key~, com a qual o usuário da estrutura
+  de dados tem contato, e uma chave interna ~HashKey~, utilizada
+  apenas pela implementação. É esperado que ~HashKey~ tenha um tamanho
+  menor que o de ~Key~, para não incorrermos em um uso proibitivo de
+  espaço.
+
+  Com ~sizeof(HashKey) < sizeof(Key)~, vemos que não pode haver uma
+  relação de equivalência entre os conjuntos de valores de ~Key~ e
+  ~HashKey~. Como há mais valores de ~Key~ que de ~HashKey~, é
+  esperado que uma função ~HashFunction~, de ~Key~ para ~HashKey~,
+  associe mais de um valor de ~Key~ ao mesmo valor de
+  ~HashKey~. Quando isso acontece, dizemos que ~HashFunction~ cria uma
+  colisão entre valores de ~Key~.
+
+  Isso posto, não podemos ter, associado a um valor de ~HashKey~,
+  espaço para apenas um valor de ~Val~. Devemos ter uma forma de
+  tratar pares de valores de ~Key~ e ~Val~ cujos valores de ~Key~
+  estejam em colisão.
+
+  Vamos ter uma posição na tabela indexada por cada valor de
+  ~HashKey~, e associada a ela uma estrutura de dados para resolver
+  colisões entre valores de ~Key~. Para nossa implementação, vamos ter
+  listas encadeadas indexdas por ~Key~ e valoradas por ~Val~. Assim,
+  cada lista encadeada será responsável por armazenar valores de ~Key~
+  (e seus respectivos valores de ~Val~) que estejam em colisão.
+
+  Com isso, acessar um valor de ~Key~ em nossa tabela de dispersão é
+  um procedimento de duas etapas: primeiro, utilizamos ~HashFunction~
+  para determinar a qual valor de ~HashKey~ ele está associado; por
+  fim, buscamos pelo valor de ~Key~ na lista encadeada correspondente
+  ao valor ~HashKey~. Com esse método de acesso, podemos realizar
+  tanto consultas como alterações em nossa estrutura de dados.
+
+  \pagebreak
 
 * Laboratórios
 

@@ -3942,3 +3942,45 @@ Notas de aula para as disciplinas de Estrutura de Dados e Estrutura de Dados Ava
       dados que controla a ordem em que os vértices são visitados.
    7. Em ~Graph_test.cpp~, escreva testes para todos os métodos
       propostos neste laboratório.
+
+** Árvore Geradora Mínima
+
+   Dado um grafo $G = (V, E)$ e uma ponderação $w : E \to \mathbb{N}$
+   para suas arestas, o problema da Árvore Geradora Mínima consiste em
+   encontrar uma árvore geradora de $G$ com peso mínimo de acordo com
+   $w$. Lembramos que uma árvore geradora de $G$ é um subgrafo conexo
+   e acíclico de $G$ que contém todos os seus vértices.
+
+   O objetivo deste laboratório é criar uma implementação do algoritmo
+   de Kruskal, um algoritmo para o problema da Árvore Geradora
+   Mínima. Para isso, vamos realizar as seguintes tarefas.
+
+   1. Na classe ~WeightedGraph~, crie um construtor cujo argumento é
+      uma ~std::string~ (representando o nome de um arquivo), cujo
+      propósito é ler um grafo e a ponderação de suas arestas a partir
+      de um arquivo. Vamos utilizar o formato ilustrado em
+      ~graph-1.txt~, que consiste de uma matriz de adjacências em que
+      a presença de uma aresta é representada por seu peso (positivo)
+      nas posições correspondentes aos seus extremos.
+   2. Crie uma função que, dado como entrada um
+      ~WeightedGraph<Weight>~, retorna um
+      ~std::vector<std::tuple<size_type, size_type, Weight>>~, em que
+      cada tripla representa uma aresta, junto com seu peso, existente
+      no grafo de entrada.
+   3. Implemente uma função para ordenar o ~std::vector~ de arestas,
+      em ordem crescente dos pesos das arestas. Isso pode ser feito
+      com o auxílio de ~sort~, que se encontra em ~algorithm~.
+   4. Vamos implementar o algoritmo de Kruskal como uma função cujo
+      único argumento é um ~WeightedGraph<Weight>~: ela deve construir
+      um ~std::vector~ de arestas em ordem crescente de peso; cada uma
+      dessas arestas é selecionada, em ordem, se não forma ciclo junto
+      com as arestas previamente selecionadas (para decidir isso,
+      utilize ~DisjointSet~); por fim, as arestas selecionadas devem
+      ser retornadas.
+   5. Escreva um programa que recebe como argumento, na linha de
+      comando, o nome de um arquivo contendo um grafo ponderado, no
+      mesmo formato de ~graph-1.txt~, e imprime o peso de sua árvore
+      geradora mínima, listando em seguida as arestas que fazem parte
+      dela.
+   6. Verifique que seu programa está correto utilizando os grafos
+      contidos em ~graph-1.txt~ e ~graph-2.txt~.

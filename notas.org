@@ -4205,3 +4205,26 @@ Notas de aula para as disciplinas de Estrutura de Dados e Estrutura de Dados Ava
       dela.
    6. Verifique que seu programa está correto utilizando os grafos
       contidos em ~graph-1.txt~ e ~graph-2.txt~.
+
+** Tabelas Hash
+
+   O problema da soma de pares é definido da seguinte maneira: dados
+   $k \in \mathbb{Z}$ e um conjunto $S \subseteq \mathbb{Z}$ de $n$
+   inteiros, devemos decidir se existem $s_1, s_2 \in S$ tais que
+   $s_1 + s_2 = k$. Para esse problema, existe uma solução quadrática
+   bastante simples, uma solução intermediária que envolve ordenação e
+   uma solução linear que envolve a dispersão dos elementos de $S$.
+
+   1. Leia a subseção 3.1 do artigo /Some Illustrative Examples on the
+      Use of Hash Tables/.
+   2. Nos exercícios a seguir, considere $k$ e $S$ representados por
+      ~int~ e ~std::vector<int>~, respectivamente:
+      1. implemente a solução de complexidade $O(n^2)$ descrita no artigo;
+      2. implemente a solução de complexidade $O(n \log n)$ descrita no artigo;
+      3. implemente a solução de complexidade $O(n)$ descrita no artigo.
+   3. Escreva um programa que recebe uma quantidade arbitrária de
+      argumentos na linha de comando: o primeiro deve representar $k$,
+      e os demais devem representar elementos de $S$. O programa deve
+      determinar se existem $s_1, s_2 \in S$ tais que $s_1 + s_2 = k$:
+      em caso afirmativo, deve imprimir tais inteiros; caso contrário,
+      deve informar que tais inteiros não existem em $S$.
